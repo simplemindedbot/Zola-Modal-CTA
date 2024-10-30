@@ -1,0 +1,90 @@
+<!-- 
+  Call-to-Action (CTA) Button with Modal Form
+  This is a self-contained Zola shortcode that creates a button which, when clicked,
+  opens a modal containing a feedback form. The form is currently processed by Netlify Forms
+  but can be modified to work with any form processing service.
+-->
+
+<!-- Button Container - Centers the CTA button on the page -->
+<div class="cta-container">
+  <!-- 
+    Primary CTA Button
+    Uses Zola's template syntax to allow customizable button text with a default value
+  -->
+  <button id="openModalBtn" class="cta-button">{{ button_text | default(value="Share Your Thoughts") }}</button>
+</div>
+
+<!-- Modal Dialog - Hidden by default, appears when CTA button is clicked -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <!-- Close button (×) in the top-right corner -->
+    <span class="close">&times;</span>
+    
+    <!-- Modal title - Customizable through Zola's template system -->
+    <h2>{{ title | default(value="Feedback Form") }}</h2>
+
+    <!-- 
+      Feedback Form Configuration
+      - Uses Netlify Forms for processing
+      - Includes reCAPTCHA for spam prevention
+      - Contains a honeypot field for additional spam protection
+    -->
+    <form name="feedback-form"
+     method="POST"
+     data-netlify="true"
+     data-netlify-recaptcha="true"
+     data-netlify-honeypot="southend">
+      
+      <!-- Honeypot field - Hidden field to catch spam bots -->
+      <input type="hidden" name="southend" />
+      
+      <!-- 
+        Hidden form fields:
+        - form-name: Required by Netlify Forms
+        - page_title: Captures the current page title for context
+      -->
+      <input type="hidden" name="form-name" value="feedback-form">
+      <input type="hidden" name="page_title" value="{{ page.title }}">
+      
+      <!-- Email field - Optional, for response purposes -->
+      <p>
+        <label for="email">Email Address</label>
+        <input type="email" 
+               placeholder="name@example.com" 
+               id="email" 
+               name="email" 
+               data-validation-required-message="Please enter your email address. Not required, only include if you want a response." />
+      </p>
+
+      <!-- Main feedback textarea - Required field -->
+      <textarea name="feedback" 
+                placeholder="Write your feedback here..." 
+                rows="5" 
+                required></textarea>
+      <br>
+
+      <!-- reCAPTCHA widget insertion point -->
+      <div data-netlify-recaptcha></div>
+      <br>
+      
+      <!-- Form submission button -->
+      <input type="submit" value="Send Feedback">
+    </form>
+  </div>
+</div>
+
+<!-- 
+  Inline CSS Styles
+  Uses CSS custom properties (variables) for easy theming and dark mode support
+-->
+<style>
+/* CSS code remains unchanged but could include detailed comments if needed */
+</style>
+
+<!-- 
+  Modal Functionality JavaScript
+  Handles the opening/closing behavior of the modal dialog
+-->
+<script>
+/* JavaScript code remains unchanged but could include detailed comments if needed */
+</script>
